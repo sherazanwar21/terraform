@@ -11,6 +11,12 @@ variable "versstatus" {
   default     = "Enabled"
 }
 
+variable "keyname" {
+  description = "Name of kms key"
+  type        = string
+  default     = "tfkmskey"
+}
+
 #vpc vars
 variable "vpccidr" {
   description = "cidr block for vpc"
@@ -76,4 +82,16 @@ variable "privateroutetable" {
   description = "name of private route table"
   type        = string
   default     = "tfprivrt"
+}
+
+variable "vpcsg" {
+  description = "security group name for vpc"
+  type        = string
+  default     = "tfvpcsg"
+}
+
+variable "vpcnacl" {
+  description = "nacl name for vpc"
+  type        = string
+  default     = "tfvpcnacl"
 }
