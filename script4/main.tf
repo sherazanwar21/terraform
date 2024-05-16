@@ -26,7 +26,7 @@ resource "aws_autoscaling_group" "asg" {
   min_size                  = 1
   desired_capacity          = 2
   health_check_grace_period = 300
-  #vpc_zone_identifier = [aws_subnet.privatesubnet.id]
+  #vpc_zone_identifier = [aws_subnet.publicsubnet.id]
 
   launch_template {
     id      = aws_launch_template.lt.id
