@@ -100,7 +100,7 @@ resource "aws_security_group" "tfsg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
-    description = "SSH"
+    description = "ALL"
     from_port   = 0
     to_port     = 0
     protocol    = "tcp"

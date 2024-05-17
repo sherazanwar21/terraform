@@ -35,6 +35,16 @@ resource "aws_instance" "atlasec2tf" {
   availability_zone = var.AZ
   key_name          = aws_key_pair.tfkey.key_name
   instance_type     = var.itype
+  user_data     = base64encode(<<-EOF
+        #!/bin/bash
+        sudo apt update
+        sudo apt install apache2 -y
+        sudo systemctl start apache2
+        sudo systemctl enable apache2
+        sudo vi /var/www/html/index.html
+        sudo echo this $HOSTNAME >> /var/www/html/index.html
+        EOF
+        )
   
   vpc_security_group_ids = [
     aws_security_group.sg.id
