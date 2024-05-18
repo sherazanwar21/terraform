@@ -1,0 +1,6 @@
+This folder is to destory all resources in a file.
+
+Steps:
+1. move file/folder in this folder
+2. terraform destory -auto-approve
+
