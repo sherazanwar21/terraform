@@ -41,31 +41,65 @@
 # }
 
 // route53 module script
-module "ec2" {
-  source = "./route53modules/ec2"
+# module "ec2" {
+#   source = "./route53modules/ec2"
 
-  sgid       = module.sg.sgid
-  subnet_id  = module.vpc.subnet_id
-  depends_on = [module.sg, module.vpc]
+#   sgid       = module.sg.sgid
+#   subnet_id  = module.vpc.subnet_id
+#   depends_on = [module.sg, module.vpc]
+# }
+
+# module "sg" {
+#   source = "./route53modules/sg"
+
+#   vpcid      = module.vpc.vpcid
+#   depends_on = [module.vpc]
+
+# }
+
+# module "vpc" {
+#   source = "./route53modules/vpc"
+
+# }
+
+# module "route53" {
+#   source = "./route53modules/route53"
+
+#   vpcid        = module.vpc.vpcid
+#   ec2privateip = module.ec2.ec2privateip
+#   depends_on   = [module.vpc, module.ec2]
+# }
+
+// asg_alb modules
+module "alb" {
+  source = "./alb_asgmodules/alb"
+
+  sgid = module.sg.sgid
+  sub1 = module.vpc.sub1
+  sub2 = module.vpc.sub2
+  vpcid = module.vpc.vpcid
+
+  depends_on = [ module.sg ]
+}
+
+module "asg" {
+  source = "./alb_asgmodules/asg"
+
+  sgid = module.sg.sgid
+  tg1 = module.alb.tg1
+  sub1 = module.vpc.sub1
+  sub2 = module.vpc.sub2
+  
+  depends_on = [ module.sg, module.alb ]
 }
 
 module "sg" {
-  source = "./route53modules/sg"
+  source = "./alb_asgmodules/sg"
 
-  vpcid      = module.vpc.vpcid
-  depends_on = [module.vpc]
-
+  vpcid = module.vpc.vpcid
 }
 
 module "vpc" {
-  source = "./route53modules/vpc"
-
+  source = "./alb_asgmodules/vpc"
 }
 
-module "route53" {
-  source = "./route53modules/route53"
-
-  vpcid        = module.vpc.vpcid
-  ec2privateip = module.ec2.ec2privateip
-  depends_on   = [module.vpc, module.ec2]
-}
